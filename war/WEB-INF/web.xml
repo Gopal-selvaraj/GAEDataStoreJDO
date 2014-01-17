@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<servlet>
+		<servlet-name>RegistrationServlet</servlet-name>
+		<servlet-class>com.GAEDataStoreJDO.datastore.RegistrationServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RegistrationServlet</servlet-name>
+		<url-pattern>/registrationServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>UpdateServlet</servlet-name>
+		<servlet-class>com.GAEDataStoreJDO.datastore.UpdateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateServlet</servlet-name>
+		<url-pattern>/updateServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>DeleteServlet</servlet-name>
+		<servlet-class>com.GAEDataStoreJDO.datastore.DeleteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteServlet</servlet-name>
+		<url-pattern>/deleteServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>com.GAEDataStoreJDO.datastore.LoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/loginServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>LogoutServlet</servlet-name>
+		<servlet-class>com.GAEDataStoreJDO.datastore.LogoutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LogoutServlet</servlet-name>
+		<url-pattern>/logoutServlet</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UploadImageServlet</servlet-name>
+		<servlet-class>com.GAEDataStoreJDO.datastore.UploadImageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UploadImageServlet</servlet-name>
+		<url-pattern>/uploadImageServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>OAuthLoginServlet</servlet-name>
+		<servlet-class>com.GAEDataStoreJDO.datastore.OAuthLoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OAuthLoginServlet</servlet-name>
+		<url-pattern>/oAuthLoginServlet</url-pattern>
+	</servlet-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>JSPPages/Index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>
