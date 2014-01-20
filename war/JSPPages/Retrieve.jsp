@@ -38,13 +38,17 @@
 	}
 	function uploadEnable(){
 		var a=document.getElementById("image").value;
-		
 		if(document.getElementById("image")!=0){
-			
 			document.getElementById("upload").disabled = false;
 			//alert("Your File is  Uploaded Successfully.");
 		}
-		
+	}
+	function updateCalled(){
+		var a=document.getElementById("image").value;
+		if(document.getElementById("image")!=0){
+			document.getElementById("upload").disabled = false;
+			//alert("Your File is  Uploaded Successfully.");
+		}
 	}
 	
 	function userNameValidation() {
@@ -161,7 +165,7 @@
 			<p>
 				<br> <span>Retrival Form</span>
 			</p><div class="design1">
-<form name="form1" action="/updateServlet" method="post" >
+<form  action="/updateServlet" method="post" >
 			
 				<table style="margin-top: 10px;margin-left:25px;">
 					<tr><td>Username</td><td>:<input disabled id="userName" maxlength="30" name="UserName"
@@ -204,7 +208,7 @@
 				</table><div class="profilebutton" style="margin-top:-2px;height:25px;width:470px;" >
 					<table style="margin-left:18px;"><tr><td><button type="button" onClick="Enable()">EnableText
 						Fields</button></td><td><input name="Update" type="submit" value="Update" id="update"
-						disabled > <a href="/JSPPages/UserProfile.jsp"><input
+						onclick="updateCalled()" disabled > <a href="/JSPPages/UserProfile.jsp"><input
 						name="ViewProfile" type="button" value="ViewProfile" ></a></td></tr></table>
 				</div></form>
 				<div style="margin-left:0px;margin-top:0px;height:70px;width:470px;background-color:#22CCFF">

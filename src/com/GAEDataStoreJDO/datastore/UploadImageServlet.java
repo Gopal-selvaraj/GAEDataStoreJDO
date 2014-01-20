@@ -40,6 +40,7 @@ public class UploadImageServlet extends HttpServlet {
 
 						Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(req);
 						BlobKey blobKey = blobs.get("Image");
+						//String imgUrl=blobKey.getKeyString();
 						String imgUrl = ImagesServiceFactory.getImagesService().getServingUrl(blobKey);
 						
 						EmployeeServlet employee = pm.getObjectById(EmployeeServlet.class, userid);

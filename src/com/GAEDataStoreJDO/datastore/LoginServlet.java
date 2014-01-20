@@ -90,6 +90,8 @@ public class LoginServlet extends HttpServlet {
 							session.setAttribute("Password",
 									employee.getPassword());
 							session.setAttribute("Image", employee.getImage());
+//							BlobKey blobKey = new BlobKey(req.getParameter("blob-key"));
+//					        blobstoreService.serve(blobKey, res);
 //							session.setAttribute("BlobName", employee.getBlobName());
 //							session.setAttribute("BlobKey", employee.getBlobKey());
 							session.setAttribute("Count", count);
