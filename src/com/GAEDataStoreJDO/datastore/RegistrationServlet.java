@@ -36,6 +36,7 @@ public class RegistrationServlet extends HttpServlet {
 		ImagesService services = ImagesServiceFactory.getImagesService();
 		ServingUrlOptions serve = ServingUrlOptions.Builder.withBlobKey(blobKey);    // Blobkey of the image uploaded to BlobStore.
 		String imgUrl = services.getServingUrl(serve);
+//		String imgUrl=blobKey.getKeyString();
 		
 //		BlobInfoFactory blobInfoFactory = new BlobInfoFactory();		 
 //		BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(blobKey);
@@ -103,6 +104,6 @@ public class RegistrationServlet extends HttpServlet {
 				pm.close();
 			}
 		}
-		res.sendRedirect("/JSPPages/Index.jsp");
+		res.sendRedirect("/JSPPages/RegisteredSuccessfully.jsp");
 	}
 }
