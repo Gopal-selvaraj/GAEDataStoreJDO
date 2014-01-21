@@ -32,13 +32,13 @@ public class OAuthLoginServlet extends HttpServlet {
 		String id_token;
 		try {
 			// op.println("Authentication code="+req.getParameter("code"));
-			System.out.println("Authentication code="
-					+ req.getParameter("code"));
+		//	System.out.println("Authentication code="
+		//			+ req.getParameter("code"));
 			auth_code = req.getParameter("code");
 			String auth_code1 = req.getParameter("error");
 			if ("access_denied".equals(auth_code1)) {
-				// resp.sendRedirect("/JSPPages/LoginFailed.jsp");
-				System.out.println("Error");
+				res.sendRedirect("/JSPPages/LoginFailed.jsp");
+				//System.out.println("Error");
 			}
 			String urlvalue = "https://accounts.google.com/o/oauth2/token?";
 			String param = "code="
@@ -100,39 +100,17 @@ public class OAuthLoginServlet extends HttpServlet {
 
 					
 					String emailId = (String) json1.get("email");
-					// System.out.println(email);
-					session.setAttribute("Emailid", emailId);
 					String name = (String) json1.get("name");
-					session.setAttribute("Username", name);
-					// System.out.println(name);
 					String picture = (String) json1.get("picture");
-					session.setAttribute("Image", picture);
 					String id = (String) json1.get("id");
-					// System.out.println(email);
+					
+					session.setAttribute("Emailid", emailId);					
+					session.setAttribute("Username", name);					
+					session.setAttribute("Image", picture);					
 					session.setAttribute("Userid", id);
-//					String birthday = (String) json1.get("birthday");
-//					session.setAttribute("DateofBirth", birthday);
-//					String phone = (String) json1.get("phone");
-//					session.setAttribute("Mobileno", phone);
+
 					res.sendRedirect("JSPPages/UserProfile.jsp");
-					// System.out.println(picture);
-//					res.getWriter().println("<html><body>");
-//					res.getWriter()
-//							.println(
-//									"<center><h2><u>Gmail Profile</u></h2><div style='box-shadow:5px 5px #555;font-family:verdana;border: 5px #eee outset;border-radius:20px;width:500px;height:350px'><br/><br/>");
-//					res.getWriter().println(
-//							"<b>Email</b>&nbsp;&nbsp;:&nbsp;&nbsp;" + emailId
-//									+ "<br/><br/>");
-//					res.getWriter().println(
-//							"<b>Name</b>&nbsp;&nbsp;:&nbsp;&nbsp;" + name
-//									+ "<br/><br/>");
-//					res.getWriter()
-//							.println(
-//									"<img src='"
-//											+ picture
-//											+ "' width=180px  height=180px style='box-shadow:5px 5px #555;font-family:verdana;border: 5px #eee outset;border-radius:20px'  /><br/><br/>");
-//					res.getWriter().println("</div></center>");
-//					res.getWriter().println("</body></html>");
+
 				} else {
 					con.disconnect();
 					res.sendRedirect("JSPPages/Index.jsp");
