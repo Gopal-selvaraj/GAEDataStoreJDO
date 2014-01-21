@@ -9,6 +9,10 @@ import javax.jdo.Query;
 import javax.jdo.PersistenceManager;
 import javax.servlet.http.*;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -26,67 +30,82 @@ public class UpdateServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
 		res.setContentType("text/html;charset=UTF-8");
-		// PrintWriter p=res.getWriter();
 
 		HttpSession session = req.getSession();
 
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
 		// EmployeeServlet employee = new EmployeeServlet();
-		
-		// Update
-		if (req.getParameter("Update") != null) {
-			try {
-				String username = req.getParameter("UserName");
-				String company = req.getParameter("Company");
-				String emailid = req.getParameter("EmailId");
-				String mobileno = req.getParameter("MobileNo");
-				String password = req.getParameter("Password");
-				String userid = req.getParameter("UserId");
-				//System.out.println(userid);
 
-				EmployeeServlet employee = pm.getObjectById(
-						EmployeeServlet.class, userid);
-				// Query filter is used to filter the particular field with
-				// value
-				Query query = pm.newQuery(EmployeeServlet.class);
-				query.setFilter("userId =='" + userid + "'");
-				// query.declareParameters("String username");
+// Update
 
-				// using the List to get the entries from the data store
-				List<EmployeeServlet> employees = (List<EmployeeServlet>) query
-						.execute();
+		try {
 
-				// Here the input values are updated into the datastore
+			String username = req.getParameter("userName");
+			String userid = req.getParameter("userId");
+			String dateofbirth = req.getParameter("dateOfBirth");
+			String dateofregistration = req.getParameter("dateOfRegistration");
+			String company = req.getParameter("companyName");
+			String emailid = req.getParameter("emailId");
+			String mobileno = req.getParameter("mobileNo");
+			String password = req.getParameter("password");
 
-				employee.setUserName(username);
+			EmployeeServlet employee = pm.getObjectById(EmployeeServlet.class,
+					userid);
 
-				employee.setCompany(company);
+			// Query filter is used to filter the particular field with
+			// value
+			Query query = pm.newQuery(EmployeeServlet.class);
+			query.setFilter("userId =='" + userid + "'");
+			// query.declareParameters("String username");
 
-				employee.setEmailId(emailid);
+			// using the List to get the entries from the data store
+			List<EmployeeServlet> employees = (List<EmployeeServlet>) query
+					.execute();
 
-				employee.setMobileNo(mobileno);
+			// Here the input values are updated into the datastore
 
-				employee.setPassword(password);
-				
-//				if("userId"==null){
-//					res.sendRedirect("/registrationServlet");
-//				}
+			employee.setUserName(username);
 
-				session.setAttribute("Username", employee.getUserName());
-				session.setAttribute("DateofBirth", employee.getDateOfBirth());
-				session.setAttribute("DateofRegistration",
-						employee.getDateOfRegistration());
-				session.setAttribute("Userid", employee.getUserId());
-				session.setAttribute("Company", employee.getCompany());
-				session.setAttribute("Emailid", employee.getEmailId());
-				session.setAttribute("Mobileno", employee.getMobileNo());
-				session.setAttribute("Password", employee.getPassword());
-				session.setAttribute("Image", employee.getImage());
+			employee.setCompany(company);
 
-			} finally {
-				pm.close();
-			}
+			employee.setEmailId(emailid);
+
+			employee.setMobileNo(mobileno);
+
+			employee.setPassword(password);
+//JSON
+			// I create the JSONObject to send the values to the jsp ...
+
+			res.setContentType("Application/json");
+			JSONObject json = new JSONObject();
+
+			json.put("userName", employee.getUserName());
+			json.put("dateOfBirth", employee.getDateOfBirth());
+			json.put("dateOfRegistration", employee.getDateOfRegistration());
+			json.put("userId", employee.getUserId());
+			json.put("companyName", employee.getCompany());
+			json.put("emailId", employee.getEmailId());
+			json.put("mobileNo", employee.getMobileNo());
+			json.put("password", employee.getPassword());
+
+			// System.out.println(json.toString());
+
+			PrintWriter out = res.getWriter();
+			out.write(json.toString());
+//SESSION
+			session.setAttribute("Username", employee.getUserName());
+			session.setAttribute("DateofBirth", employee.getDateOfBirth());
+			session.setAttribute("DateofRegistration",
+					employee.getDateOfRegistration());
+			session.setAttribute("Emailid", employee.getEmailId());
+			session.setAttribute("Userid", employee.getUserId());
+			session.setAttribute("Company", employee.getCompany());
+			session.setAttribute("Mobileno", employee.getMobileNo());
+			session.setAttribute("Image", employee.getImage());
+
+		} finally {
+			pm.close();
 		}
 		res.sendRedirect("/JSPPages/Retrieve.jsp");
 	}

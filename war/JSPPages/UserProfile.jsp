@@ -84,8 +84,8 @@
 						<%=session.getAttribute("DateofBirth")%></h4>
 				</td></tr><%} if(session.getAttribute("DateofRegistration")!=null){ %><tr><td>
 					<h4>
-						Registration</h4></td><td><h4>:
-						<%=session.getAttribute("DateofRegistration")%></h4>
+						Company</h4></td><td><h4>:
+						<%=session.getAttribute("Company")%></h4>
 				</td></tr><%} if(session.getAttribute("Userid")!=null){ %>
 				<tr><td>
 					<h4>

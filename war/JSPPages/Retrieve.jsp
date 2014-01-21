@@ -1,5 +1,6 @@
 <%@page pageEncoding="Cp1252" contentType="text/html; charset=Cp1252"%>
-<%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory"%>
+<%@ page
+	import="com.google.appengine.api.blobstore.BlobstoreServiceFactory"%>
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreService"%>
 
 <%
@@ -25,10 +26,11 @@
 	}
 %>
 <script type="text/javascript">
-	function Enable() {
+	function Enabled() {
+
 		document.getElementById("userName").disabled = false;
-		document.getElementById("dateOfBirth").disabled = false;
-		document.getElementById("dateOfRegistration").disabled = false;
+		//document.getElementById("dateOfBirth").disabled = false;
+		//document.getElementById("dateOfRegistration").disabled = false;
 		document.getElementById("companyName").disabled = false;
 		document.getElementById("emailId").disabled = false;
 		document.getElementById("mobileNo").disabled = false;
@@ -36,21 +38,62 @@
 		document.getElementById("reTypePassword").disabled = false;
 		document.getElementById("update").disabled = false;
 	}
-	function uploadEnable(){
-		var a=document.getElementById("image").value;
-		if(document.getElementById("image")!=0){
+	var request;
+	function updateCalled() {
+		
+		var userName=encodeURIComponent(document.getElementById("userName").value);
+		var userId=encodeURIComponent(document.getElementById("userId").value);
+		var dateOfBirth=encodeURIComponent(document.getElementById("dateOfBirth").value);
+		var dateOfRegistration=encodeURIComponent(document.getElementById("dateOfRegistration").value);
+		var companyName = encodeURIComponent(document.getElementById("companyName").value);
+		var emailId = encodeURIComponent(document.getElementById("emailId").value);
+		var mobileNo = encodeURIComponent(document.getElementById("mobileNo").value);
+		var password = encodeURIComponent(document.getElementById("password").value);
+	//	var reTypePassword = encodeURIComponent(document.getElementById("reTypePassword").value);
+		
+		var parameters="userName="+userName+"&userId="+userId+"&dateOfBirth="+dateOfBirth+"&dateOfRegistration="+dateOfRegistration+"&companyName="+companyName+
+		"&emailId="+emailId+"&mobileNo="+mobileNo+"&password="+password;
+		
+		//var url = "/updateServlet";
+		
+		if (window.XMLHttpRequest) {
+			request = new XMLHttpRequest();
+		} else if (window.ActiveXObject) {
+			request = new ActiveXObject("MicroSoft.XMLHTTP");
+		}
+		try {
+			request.onreadystatechange = retrieveData;
+			request.open("POST", '/updateServlet' , true);
+			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			request.send(parameters);
+		} catch (e) {
+			alert("Unable to connect server");
+		}
+	}
+	function retrieveData() {
+		if (request.readyState == 4 && request.status == 200) {
+			var JSONObject = JSON.parse(request.responseText);
+			//document.getElementById("form1").innerHTML = val;
+			document.getElementById("userName").value =JSONObject.userName ;
+			document.getElementById("userId").value=JSONObject.userId ;
+			document.getElementById("dateOfBirth").value = JSONObject.dateOfBirth;
+			document.getElementById("dateOfRegistration").value =JSONObject.dateOfRegistration ;
+			document.getElementById("companyName").value =JSONObject.companyName ;
+			document.getElementById("emailId").value =JSONObject.emailId ;
+			document.getElementById("mobileNo").value = JSONObject.mobileNo;
+			document.getElementById("password").value = JSONObject.password;
+		
+		}
+	}
+	//}
+function uploadEnable() {
+		var a = document.getElementById("image").value;
+		if (document.getElementById("image") != 0) {
 			document.getElementById("upload").disabled = false;
 			//alert("Your File is  Uploaded Successfully.");
 		}
 	}
-	function updateCalled(){
-		var a=document.getElementById("image").value;
-		if(document.getElementById("image")!=0){
-			document.getElementById("upload").disabled = false;
-			//alert("Your File is  Uploaded Successfully.");
-		}
-	}
-	
+
 	function userNameValidation() {
 		var userName = document.getElementById("userName").value;
 		var userNamePattern = /^[A-Z]+[a-z0-9]/;
@@ -114,7 +157,6 @@
 			document.getElementById("reTypePassword").focus();
 		}
 	}
-	
 </script>
 </head>
 <body bgcolor="Teal">
@@ -142,7 +184,10 @@
 		%>
 		<div class="Menu" style="width: 50px;">
 			<%=session.getAttribute("Count")%>
-		</div><%} %>
+		</div>
+		<%
+			}
+		%>
 		<div class="Menu">
 
 			<a href="/logoutServlet">Logout</a>
@@ -159,67 +204,107 @@
 	</div>
 	<div></div>
 	<div class="break"></div>
-	
 
-		<div class="design">
-			<p>
-				<br> <span>Retrival Form</span>
-			</p><div class="design1">
-<form  action="/updateServlet" method="post" >
-			
-				<table style="margin-top: 10px;margin-left:25px;">
-					<tr><td>Username</td><td>:<input disabled id="userName" maxlength="30" name="UserName"
-						size="20" type="text"
-						value="<%=session.getAttribute("Username")%>"
-						onblur="userNameValidation()" required></td></tr>
+
+	<div class="design">
+		<p>
+			<br> <span>Retrival Form</span>
+		</p>
+		<div class="design1">
+			<!--  <form name="form1" action="/updateServlet" method="post">-->
+	<form action="">
+				<table style="margin-top: 10px; margin-left: 25px;">
+					<tr>
+						<td>Username</td>
+						<td>:<input disabled id="userName" maxlength="30"
+							name="UserName" size="20" type="text"
+							value="<%=session.getAttribute("Username")%>"
+							onblur="userNameValidation()" required></td>
+					</tr>
+
+					<tr>
+						<td>DateOfBirth</td>
+						<td>:<input readonly id="dateOfBirth" maxlength="30"
+							name="DateOfBirth" size="20" type="date"
+							value="<%=session.getAttribute("DateofBirth")%>" required>
+					<tr>
+						<td>DateOfRegistration</td>
+						<td>:<input readonly maxlength="30" id="dateOfRegistration"
+							name="DateOfRegistration" size="20" type="date"
+							value="<%=session.getAttribute("DateofRegistration")%>" required></td>
+					</tr>
+					<tr>
+						<td>UserId</td>
+						<td>:<input readonly id="userId" maxlength="10" name="UserId"
+							size="20" type="text" value="<%=session.getAttribute("Userid")%>"
+							required></td>
+					</tr>
+					<tr>
+						<td>Company</td>
+						<td>:<input disabled id="companyName" maxlength="30"
+							name="Company" size="20" type="text"
+							value="<%=session.getAttribute("Company")%>"
+							onblur="companyNameValidation()"></td>
+					</tr>
+					<tr>
+						<td>EmailId</td>
+						<td>:<input disabled id="emailId" maxlength="30"
+							name="EmailId" size="20" type="email"
+							value="<%=session.getAttribute("Emailid")%>"
+							onblur="emailIdValidation()" required></td>
+					</tr>
+					<tr>
+						<td>MobileNo</td>
+						<td>:<input disabled maxlength="10" id="mobileNo"
+							name="MobileNo" size="20" type="text"
+							value="<%=session.getAttribute("Mobileno")%>"
+							onblur="mobileNoValidation()"></td>
+					</tr>
+					<tr>
+						<td>Password</td>
+						<td>:<input disabled id="password" maxlength="10"
+							name="Password" size="20" type="password"
+							value="<%=session.getAttribute("Password")%>"
+							onblur="passwordValidation()" required></td>
+					</tr>
+					<tr>
+						<td>ReTypePassword</td>
+						<td>:<input disabled id="reTypePassword" maxlength="10"
+							name="ReTypePassword" size="20" type="password"
+							value="<%=session.getAttribute("Password")%>"
+							onblur="reTypePasswordValidation()" required></td>
+					</tr>
+				</table>
+				<div class="profilebutton"
+					style="margin-top: -2px; height: 25px; width: 470px;">
+					<table style="margin-left: 18px;">
+						<tr>
+							<td><button type="button" onClick="Enabled()">EnableTextFields</button></td>
+							<td><input name="Update" type="button" value="Update" id="update" onClick="updateCalled()" disabled>
+							<a href="/JSPPages/UserProfile.jsp"><input name="ViewProfile"
+									type="button" value="ViewProfile"></a></td>
+						</tr>
+					</table>
+					</div>
+	</form>		
+			<div
+				style="margin-left: 0px; margin-top: 0px; height: 70px; width: 470px; background-color: #22CCFF">
+				<form
+					action="<%=blobstoreService.createUploadUrl("/uploadImageServlet")%>"
+					method="post" enctype="multipart/form-data">
+					<table style="margin-left: 18px;">
+						<tr>
+							<td><img style="margin-top: 2px; margin-left: 2px;"	class="image" src="<%=session.getAttribute("Image")%>" /></td>
+							<td>Image</td>
+							<td>:<input type="file" name="Image" id="image" value=""onclick="uploadEnable()"></td>
+							<td><input disabled type="submit" name="Upload" id="upload"	value="Upload"></td>
+						</tr>
+					</table>
+				</form>
 				
-					<tr><td>DateOfBirth </td><td>:<input disabled id="dateOfBirth" maxlength="30" name="DateOfBirth"
-						size="20" type="date"
-						value="<%=session.getAttribute("DateofBirth")%>" required>
-				<tr><td>DateOfRegistration</td><td> :<input disabled maxlength="30"
-						id="dateOfRegistration" name="DateOfRegistration" size="20"
-						type="date"
-						value="<%=session.getAttribute("DateofRegistration")%>" required></td></tr>
-				<tr><td>UserId</td><td>:<input readonly id="userId" maxlength="10" name="UserId" size="20"
-						type="text" value="<%=session.getAttribute("Userid")%>" required></td></tr>
-			<tr><td>Company
-					</td><td>:<input disabled id="companyName" maxlength="30" name="Company"
-						size="20" type="text" value="<%=session.getAttribute("Company")%>"
-						onblur="companyNameValidation()"></td></tr>
-				<tr><td>EmailId
-					</td><td>:<input disabled id="emailId" maxlength="30" name="EmailId"
-						size="20" type="email"
-						value="<%=session.getAttribute("Emailid")%>"
-						onblur="emailIdValidation()" required></td></tr>
-				<tr><td>MobileNo
-					</td><td>:<input disabled maxlength="10" id="mobileNo" name="MobileNo"
-						size="20" type="text"
-						value="<%=session.getAttribute("Mobileno")%>"
-						onblur="mobileNoValidation()"></td></tr>
-			<tr><td>Password
-					</td><td>:<input disabled id="password" maxlength="10" name="Password"
-						size="20" type="password"
-						value="<%=session.getAttribute("Password")%>"
-						onblur="passwordValidation()" required></td></tr>
-				<tr><td>ReTypePassword</td><td>:<input disabled id="reTypePassword"
-						maxlength="10" name="ReTypePassword" size="20" type="password"
-						value="<%=session.getAttribute("Password")%>"
-						onblur="reTypePasswordValidation()" required></td></tr>
-				</table><div class="profilebutton" style="margin-top:-2px;height:25px;width:470px;" >
-					<table style="margin-left:18px;"><tr><td><button type="button" onClick="Enable()">EnableText
-						Fields</button></td><td><input name="Update" type="submit" value="Update" id="update"
-						onclick="updateCalled()" disabled > <a href="/JSPPages/UserProfile.jsp"><input
-						name="ViewProfile" type="button" value="ViewProfile" ></a></td></tr></table>
-				</div></form>
-				<div style="margin-left:0px;margin-top:0px;height:70px;width:470px;background-color:#22CCFF">
-				<form action="<%=blobstoreService.createUploadUrl("/uploadImageServlet") %>" method="post" enctype="multipart/form-data">
-				<table style="margin-left:18px;"><tr><td><img style="margin-top:2px;margin-left:2px;"class="image"  src="<%=session.getAttribute("Image")%>" /></td><td>
-				Image</td><td>:<input type="file" name="Image" id="image" value="" onclick="uploadEnable()"></td>
-				<td><input disabled type="submit" name="Upload" id="upload" value ="Upload"></td></tr></table></form><form name="form1">
-				
-			</form>
-</div></div>
+			</div>
 		</div>
+	</div>
 </body>
 </html>
 
