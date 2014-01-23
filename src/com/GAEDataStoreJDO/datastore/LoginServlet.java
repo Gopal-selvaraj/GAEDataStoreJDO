@@ -27,21 +27,6 @@ public class LoginServlet extends HttpServlet {
 		res.setContentType("text/html;charset=UTF-8");
 		HttpSession session = req.getSession();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-//		Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(req);
-//		BlobKey blobKey = blobs.get(blobstoreService);
-//		BlobInfoFactory blob=new BlobInfoFactory().;
-//		
-//		String b=new BlobInfo(blobKey, b, null, b, 0, b).getFilename();
-//		String b1=new BlobInfo(blobKey, b1, null, b1, 0).getFilename();
-//		System.out.println(b);	
-//		String img=(String)session.getAttribute("Image");
-//		char [][] imag = null;
-//		char[] image=img.toCharArray();;
-//		for (int i=0;i<img.length();i++){
-//			for (int j=0;j<img.length();j++)
-//			if (image[i]!='/')
-//				imag[i][j]=image[i+1];
-//		}
 		
 		// Login
 		if (req.getParameter("Login") != null) {
@@ -90,16 +75,7 @@ public class LoginServlet extends HttpServlet {
 							session.setAttribute("Password",
 									employee.getPassword());
 							session.setAttribute("Image", employee.getImage());
-//							BlobKey blobKey = new BlobKey(req.getParameter("blob-key"));
-//					        blobstoreService.serve(blobKey, res);
-//							session.setAttribute("BlobName", employee.getBlobName());
-//							session.setAttribute("BlobKey", employee.getBlobKey());
 							session.setAttribute("Count", count);
-							
-							// System.out.println("Count :"+count);
-							// System.out.println(employee.getImage());
-							// //System.out
-							// .println(session.getAttribute("Username"));
 							increment++;
 							res.sendRedirect("JSPPages/UserProfile.jsp");
 						}

@@ -110,20 +110,4 @@ public class EmployeeServlet {
 		this.dateOfRegistration = dateOfRegistration;
 	}
 
-	// public String getBlobName() {
-	// return blobName;
-	// }
-	//
-	// public void setBlobName(String blobName) {
-	// this.blobName = blobName;
-	// }
-	//
-	// public String getBlobKey() {
-	// return blobKey;
-	// }
-	//
-	// public void setBlobKey(String blobkey) {
-	// this.blobKey = blobkey;
-	// }
-
 }

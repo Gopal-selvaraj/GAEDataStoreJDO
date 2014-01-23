@@ -35,8 +35,6 @@ public class UpdateServlet extends HttpServlet {
 
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
-		// EmployeeServlet employee = new EmployeeServlet();
-
 // Update
 
 		try {
